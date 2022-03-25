@@ -19,11 +19,13 @@ information in the terminal as they expect.
 > I can list the new features released in my current version of PowerShell, similar
 > to [webview](https://docs.microsoft.com/powershell/scripting/whats-new/what-s-new-in-powershell-72)
 > so that I can discover and implement new features in managing my products.
+
 > As a developer,
 > I can list the new features released in my current version of PowerShell, similar
 > to [webview](https://docs.microsoft.com/powershell/scripting/whats-new/what-s-new-in-powershell-72)
 > so that I can discover and implement new features to develop automation solutions.
 
-> [!NOTE]
-> This is a prototype for a draft [RFC](). We are not taking issues or PRs at this time. Please comment on 
-> the draft RFC.
+## NOTE
+
+This is a prototype for a draft [RFC](). We are not taking issues or PRs at this time. Please comment on 
+the draft RFC.
