@@ -27,5 +27,5 @@ information in the terminal as they expect.
 
 ## NOTE
 
-This is a prototype for a draft [RFC](). We are not taking issues or PRs at this time. Please comment on 
+This is a prototype for a draft [RFC #317](https://github.com/PowerShell/PowerShell-RFC/pull/317). We are not taking issues or PRs at this time. Please comment on 
 the draft RFC.
