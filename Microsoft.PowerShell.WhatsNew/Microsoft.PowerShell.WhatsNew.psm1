@@ -14,11 +14,11 @@ function Get-AvailableVersion {
 
     if ( $urihashtable ) {
         $filenameBase = "What-s-New-in-PowerShell"
-        $urlBase = 'https://docs.microsoft.com/powershell/scripting/whats-new'
+        $urlBase = 'https://aka.ms/WhatsNew'
         foreach ( $version in $versions ) {
-            $fileVersion = $version -replace "\." -replace "51","50"
-            if ( $fileVersion -eq "50" ) {
-                $fileBase = "What-s-New-in-Windows-PowerShell-${fileVersion}"
+            $fileVersion = $version -replace "\."
+            if ( $fileVersion -eq "51" ) {
+                $fileBase = "What-s-New-in-Windows-PowerShell-50"
             }
             else {
                 $fileBase = "${filenameBase}-${fileVersion}"
@@ -27,22 +27,13 @@ function Get-AvailableVersion {
                 # construct the hashtable
                 version = $version
                 path = Join-Path -Path $PSScriptRoot -ChildPath relnotes -Additional "${fileBase}.md"
-                url = "${urlBase}/$fileBase".ToLower()
+                url = "${urlBase}${fileVersion}"
             }
         }
     }
     else {
         $versions | Sort-Object
     }
-}
-
-function TestVersion {
-    param ( $version )
-    $allowedVersions = Get-AvailableVersion
-    if ( $allowedVersions -contains $version ) {
-        return $true
-    }
-    throw ("only " + ( $allowedVersions -join ", "))
 }
 
 <#
