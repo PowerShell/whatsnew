@@ -375,7 +375,8 @@ PowerShell 4.0 are available in the
 
 - Starting in Windows PowerShell 5.0, you can generate a set of Windows PowerShell cmdlets based on
   the functionality exposed by a given OData endpoint, by running the Export-ODataEndpointProxy
-  cmdlet, found in the new [Microsoft.PowerShell.OdataUtils](/powershell/module/microsoft.powershell.odatautils) module.
+  cmdlet, found in the new
+  [Microsoft.PowerShell.OdataUtils](/powershell/module/microsoft.powershell.odatautils) module.
 
 ### Notable bug fixes in Windows PowerShell 5.0
 
@@ -651,7 +652,8 @@ not require Windows PowerShell, remote management software, or browser plug-in i
 that is required is a properly-configured Windows PowerShell Web Access gateway and a client device
 browser that supports JavaScript and accepts cookies.
 
-For more information, see [Deploy Windows PowerShell Web Access](/previous-versions/powershell/scripting/components/web-access/install-and-use-windows-powershell-web-access).
+For more information, see
+[Deploy Windows PowerShell Web Access](/previous-versions/powershell/scripting/components/web-access/install-and-use-windows-powershell-web-access).
 
 ### New Windows PowerShell ISE Features
 
@@ -834,7 +836,8 @@ In addition, scheduled jobs come with a customized set of cmdlets for managing t
 you create, edit, manage, disable, and re-enable scheduled jobs, create scheduled job triggers and
 set scheduled job options.
 
-For more information about scheduled jobs, see [about_Scheduled_Jobs](/powershell/module/psscheduledjob/about/about_scheduled_jobs).
+For more information about scheduled jobs, see
+[about_Scheduled_Jobs](/powershell/module/psscheduledjob/about/about_scheduled_jobs).
 
 ### Windows PowerShell Language Enhancements
 
