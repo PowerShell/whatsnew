@@ -27,8 +27,7 @@ CmdletsToExport = @()
 VariablesToExport = '*'
 AliasesToExport = @()
 
-FileList = 'WhatsNew.psm1',
-           'relnotes\What-s-New-in-PowerShell-70.md',
+FileList = 'relnotes\What-s-New-in-PowerShell-70.md',
            'relnotes\What-s-New-in-PowerShell-71.md',
            'relnotes\What-s-New-in-PowerShell-72.md',
            'relnotes\What-s-New-in-PowerShell-73.md',

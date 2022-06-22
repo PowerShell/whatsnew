@@ -1,4 +1,42 @@
-﻿<#
+﻿
+# This will return the available versions found on the disk.
+# Optionally, it will construct the objects used in the script
+# to display the what's new document.
+function Get-AvailableVersion {
+    param ( [switch]$urihashtable )
+
+    $versions = foreach($filename in Get-ChildItem "$PSScriptRoot/relnotes") {
+        $fileVersion = $filename -replace ".*(\d)(\d).*",'$1.$2'
+        # fix up version 5.0 to 5.1
+        $fileVersion = $fileVersion -replace "5.0","5.1"
+        $fileVersion
+    }
+
+    if ( $urihashtable ) {
+        $filenameBase = "What-s-New-in-PowerShell"
+        $urlBase = 'https://aka.ms/WhatsNew'
+        foreach ( $version in $versions ) {
+            $fileVersion = $version -replace "\."
+            if ( $fileVersion -eq "51" ) {
+                $fileBase = "What-s-New-in-Windows-PowerShell-50"
+            }
+            else {
+                $fileBase = "${filenameBase}-${fileVersion}"
+            }
+            @{
+                # construct the hashtable
+                version = $version
+                path = Join-Path -Path $PSScriptRoot -ChildPath relnotes -Additional "${fileBase}.md"
+                url = "${urlBase}${fileVersion}"
+            }
+        }
+    }
+    else {
+        $versions | Sort-Object
+    }
+}
+
+<#
     .SYNOPSIS
     Displays release notes for a version of PowerShell.
 
@@ -56,12 +94,12 @@ function Get-WhatsNew {
         # The version number of PowerShell to be displayed. If not specified, the current version is used.
         [Parameter(Position=0,ParameterSetName='ByVersion')]
         [Parameter(Position=0,ParameterSetName='ByVersionRange')]
-        [ValidateSet('5.1','7.0','7.1','7.2','7.3')]
+        [ValidateScript({TestVersion $_})]
         [string]$Version,
 
         # The version number of PowerShell used to defined the range of versions to be displayed.
         [Parameter(Mandatory,ParameterSetName='ByVersionRange')]
-        [ValidateSet('5.1','7.0','7.1','7.2','7.3')]
+        [ValidateScript({TestVersion $_})]
         [string]$EndVersion,
 
         # Displays release notes for all versions.
@@ -78,34 +116,7 @@ function Get-WhatsNew {
         [switch]$Online
     )
 
-
-    $versions = @(
-        @{
-            version = '5.1'
-            path = Join-Path $PSScriptRoot 'relnotes/What-s-New-in-Windows-PowerShell-50.md'
-            url = 'https://aka.ms/WhatsNew51'
-        },
-        @{
-            version = '7.0'
-            path = Join-Path $PSScriptRoot 'relnotes/What-s-New-in-PowerShell-70.md'
-            url = 'https://aka.ms/WhatsNew70'
-        },
-        @{
-            version = '7.1'
-            path = Join-Path $PSScriptRoot 'relnotes/What-s-New-in-PowerShell-71.md'
-            url = 'https://aka.ms/WhatsNew71'
-        },
-        @{
-            version = '7.2'
-            path = Join-Path $PSScriptRoot 'relnotes/What-s-New-in-PowerShell-72.md'
-            url = 'https://aka.ms/WhatsNew72'
-        },
-        @{
-            version = '7.3'
-            path = Join-Path $PSScriptRoot 'relnotes/What-s-New-in-PowerShell-73.md'
-            url = 'https://aka.ms/WhatsNew73'
-        }
-    )
+    $versions = Get-AvailableVersion -uriHashtable
 
     if (0 -eq $Version) {
         $Version = [double]('{0}.{1}' -f $PSVersionTable.PSVersion.Major,$PSVersionTable.PSVersion.Minor)
