@@ -30,5 +30,10 @@ Describe "General tests for 'Get-WhatsNew'" {
         $collection = @( $header2hash["File70"]; $header2hash["File60"]; $header2hash["File50"])
         $observed | Should -Be $collection
     }
+
+    It "Converts a version missing the period to version.0" {
+        $observed = Get-WhatsNew -version 7 | Select-String -Raw "^## "
+        $observed | Should -Be $header2hash["File70"]
+    }
 }
 
