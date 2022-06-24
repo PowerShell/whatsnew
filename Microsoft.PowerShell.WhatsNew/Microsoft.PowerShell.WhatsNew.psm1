@@ -42,7 +42,7 @@ function TestVersion {
     $allowedVersions = Get-AvailableVersion
     foreach ($version in $versions) {
         if ( $allowedVersions -notcontains $version ) {
-            throw ("$version not in: " + ( $allowedVersions -join ", "))
+            throw ("'$version' not in: " + ( $allowedVersions -join ", "))
         }
     }
     return $true
@@ -193,6 +193,8 @@ function Get-WhatsNew {
 
 $sbVersions = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    Get-AvailableVersion | Where-Object {$_ -like "$wordToComplete*"}
+    Get-AvailableVersion |
+        Where-Object {$_ -like "$wordToComplete*"} |
+        ForEach-Object { "'$_'"}
 }
 Register-ArgumentCompleter -CommandName Get-WhatsNew -ParameterName Version -ScriptBlock $sbVersions
