@@ -14,7 +14,14 @@ if ($publish) {
 }
 
 if ( $test ) {
+    if ( ! $publish ) {
+        ./build.ps1 -publish
+    }
     # run tests
+    $psExe = (get-process -id $PID).MainModule.filename
+    $testCommand = "import-module $PSScriptRoot/out/${moduleName}; Set-Location $PSScriptRoot/test; Invoke-Pester"
+    $psArgs = "-noprofile","-noninteractive","-command",$testCommand
+    & $psExe $psArgs
 }
 
 if ( $package ) {
