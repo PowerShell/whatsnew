@@ -1,7 +1,7 @@
 # Module manifest for module 'Microsoft.PowerShell.WhatsNew'
 @{
 RootModule = 'Microsoft.PowerShell.WhatsNew.psm1'
-ModuleVersion = '0.3.0'
+ModuleVersion = '0.4.0'
 GUID = 'e49f73fd-7419-4639-84d7-159ebc32645e'
 Author = 'sewhee@microsoft.com'
 CompanyName = 'Microsoft'
@@ -30,14 +30,14 @@ CmdletsToExport = @()
 VariablesToExport = '*'
 AliasesToExport = @()
 
-FileList = 'relnotes\What-s-New-in-PowerShell-70.md',
-           'relnotes\What-s-New-in-PowerShell-71.md',
-           'relnotes\What-s-New-in-PowerShell-72.md',
-           'relnotes\What-s-New-in-PowerShell-73.md',
-           'What-s-New-in-PowerShell-Core-60.md',
-           'What-s-New-in-PowerShell-Core-61.md',
-           'What-s-New-in-PowerShell-Core-62.md',
-           'relnotes\What-s-New-in-Windows-PowerShell-50.md'
+FileList = 'relnotes/What-s-New-in-PowerShell-70.md',
+           'relnotes/What-s-New-in-PowerShell-71.md',
+           'relnotes/What-s-New-in-PowerShell-72.md',
+           'relnotes/What-s-New-in-PowerShell-73.md',
+           'relnotes/What-s-New-in-PowerShell-Core-60.md',
+           'relnotes/What-s-New-in-PowerShell-Core-61.md',
+           'relnotes/What-s-New-in-PowerShell-Core-62.md',
+           'relnotes/What-s-New-in-Windows-PowerShell-50.md'
 
 PrivateData = @{
     PSData = @{
