@@ -41,6 +41,9 @@ function TestVersion {
     param ( [string[]]$versions )
     $allowedVersions = Get-AvailableVersion
     foreach ($version in $versions) {
+        if ( $version -notmatch "\." ) {
+            $version = "${version}.0"
+        }
         if ( $allowedVersions -notcontains $version ) {
             throw ("'$version' not in: " + ( $allowedVersions -join ", "))
         }
@@ -128,6 +131,7 @@ function Get-WhatsNew {
         $Version = '{0}.{1}' -f $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor
     }
 
+    $Version = $Version | foreach-object { if ( $_ -notmatch "\." ) { "${_}.0" } else { $_ } }
     $versions = Get-AvailableVersion -uriHashtable | Where-Object {$_.version -in $Version}
 
     # Resolve parameter set
