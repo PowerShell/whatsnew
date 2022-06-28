@@ -1,4 +1,4 @@
-param ( [switch]$publish, [switch]$test, [switch]$package )
+param ( [switch]$publish, [switch]$test, [switch]$package, [switch]$clean )
 $moduleName = "Microsoft.PowerShell.WhatsNew"
 $psd = Import-PowerShellDataFile "$PSScriptRoot/${moduleName}/${moduleName}.psd1"
 $moduleVersion = $psd.ModuleVersion
@@ -36,5 +36,10 @@ if ( $package ) {
     finally {
         Unregister-PSRepository -Name $repoName
     }
-    
+
+}
+
+if ( $clean ) {
+    $null = Remove-Item "${PSScriptRoot}/out" -Recurse -Force
+    $null = Remove-Item "$PsScriptRoot/*.nupkg" -Force
 }
