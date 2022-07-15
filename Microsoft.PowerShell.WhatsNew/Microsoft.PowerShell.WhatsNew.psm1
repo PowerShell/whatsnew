@@ -131,7 +131,13 @@ function Get-WhatsNew {
         $Version = '{0}.{1}' -f $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor
     }
 
-    $Version = $Version | foreach-object { if ( $_ -notmatch "\." ) { "${_}.0" } else { $_ } }
+    $Version = $Version | ForEach-Object {
+        if ( $_ -notmatch "\." ) {
+            "${_}.0"
+        } else {
+            $_
+        }
+    }
     if ($All) {
         $versions = Get-AvailableVersion -uriHashtable
     } else {
