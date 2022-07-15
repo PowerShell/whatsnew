@@ -35,5 +35,10 @@ Describe "General tests for 'Get-WhatsNew'" {
         $observed = Get-WhatsNew -version 7 | Select-String -Raw "^## "
         $observed | Should -Be $header2hash["File70"]
     }
+
+    It "Returns all versions" {
+        $observed = Get-WhatsNew -All | select-string '^# Release notes for'
+        $observed.Count | Should -Be $files.Count
+    }
 }
 

@@ -27,7 +27,7 @@ function Get-AvailableVersion {
             @{
                 # construct the hashtable
                 version = $version
-                path = Join-Path -Path $PSScriptRoot -ChildPath relnotes -Additional "${fileBase}.md"
+                path = Join-Path -Path $PSScriptRoot "relnotes/${fileBase}.md"
                 url = "${urlBase}${fileVersion}"
             }
         }
@@ -131,8 +131,18 @@ function Get-WhatsNew {
         $Version = '{0}.{1}' -f $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor
     }
 
-    $Version = $Version | foreach-object { if ( $_ -notmatch "\." ) { "${_}.0" } else { $_ } }
-    $versions = Get-AvailableVersion -uriHashtable | Where-Object {$_.version -in $Version}
+    $Version = $Version | ForEach-Object {
+        if ( $_ -notmatch "\." ) {
+            "${_}.0"
+        } else {
+            $_
+        }
+    }
+    if ($All) {
+        $versions = Get-AvailableVersion -uriHashtable
+    } else {
+        $versions = Get-AvailableVersion -uriHashtable | Where-Object {$_.version -in $Version}
+    }
 
     # Resolve parameter set
     $mdfiles = @()
