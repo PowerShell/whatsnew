@@ -60,3 +60,15 @@ stages:
           vmImage: $[ variables['vmImage'] ]
         steps:
         - template: templates/test-powershell.yaml
+        
+    - stage: compliance
+      displayName: Compliance
+      dependsOn: Build
+      jobs:
+      - job: Compliance_Job
+        pool:
+          vmImage: windows-latest
+       steps:
+       - checkout: self
+       - checkout: ComplianceRepo
+       - template: ci-compliance.yml@ComplianceRepo
