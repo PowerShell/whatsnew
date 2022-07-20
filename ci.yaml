@@ -42,8 +42,6 @@ stages:
               vmImage: ubuntu-20.04
             mac_Latest:
               vmImage: macOS-latest
-            Windows_Server2019_PowerShell_Core:
-              vmImage: windows-2019
             Windows_Server2022_PowerShell_Core:
               vmImage: windows-2022
         pool:
