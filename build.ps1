@@ -24,7 +24,7 @@ if ( $test ) {
     }
     # run tests
     $psExe = (get-process -id $PID).MainModule.filename
-    $testCommand = "import-module $PSScriptRoot/out/${moduleName}; Set-Location $PSScriptRoot/test; Invoke-Pester"
+    $testCommand = "import-module $PSScriptRoot/out/${moduleName}; Set-Location $PSScriptRoot/test; Invoke-Pester -OutputFormat NUnitXml -OutputFile  $PSScriptRoot/testResults.xml"
     $psArgs = "-noprofile","-noninteractive","-command",$testCommand
     & $psExe $psArgs
 }
