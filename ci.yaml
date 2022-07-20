@@ -10,10 +10,7 @@ stages:
           vmImage: windows-latest
         steps:
         - pwsh: |
-            Import-Module .\tools\appveyor.psm1
-            Invoke-AppveyorInstall -SkipPesterInstallation
-            ./build.ps1 -Configuration 'Release' -All
-            ./PSCompatibilityCollector/build.ps1 -Configuration 'Release'
+            ./build.ps1 -publish
           displayName: 'Full Build'
         - pwsh: |
             Write-Host "##vso[artifact.upload containerfolder=out;artifactname=out;]${env:Build_SourcesDirectory}/out"
@@ -39,9 +36,6 @@ stages:
       - job:
         strategy:
           matrix:
-            Windows_Server2019_PowerShell_5_1:
-              vmImage: windows-2019
-              pwsh: false
             Windows_Server2022_PowerShell_5_1:
               vmImage: windows-2022
               pwsh: false

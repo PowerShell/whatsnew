@@ -11,10 +11,10 @@ steps:
     targetType: inline
     pwsh: true
     script: |
-      Import-Module .\tools\appveyor.psm1
-      Invoke-AppveyorTest -CheckoutPath $env:BUILD_SOURCESDIRECTORY
+      Install-Module Pester -Force -Verbose
+      ./build.ps1 -publish -test
 - task: PublishTestResults@2
   inputs:
     testRunner: NUnit
-    testResultsFiles: 'TestResults.xml'
+    testResultsFiles: 'testResults.xml'
   condition: succeededOrFailed()
