@@ -4,6 +4,11 @@ $psd = Import-PowerShellDataFile "$PSScriptRoot/${moduleName}/${moduleName}.psd1
 $moduleVersion = $psd.ModuleVersion
 $moduleDeploymentDir = "${PSScriptRoot}/out/${moduleName}/${moduleVersion}"
 
+if ( $clean ) {
+    $null = Remove-Item "${PSScriptRoot}/out" -Recurse -Force
+    $null = Remove-Item "$PsScriptRoot/*.nupkg" -Force
+}
+
 if ($publish) {
     # create directory with version
     # copy files to that location
@@ -37,9 +42,4 @@ if ( $package ) {
         Unregister-PSRepository -Name $repoName
     }
 
-}
-
-if ( $clean ) {
-    $null = Remove-Item "${PSScriptRoot}/out" -Recurse -Force
-    $null = Remove-Item "$PsScriptRoot/*.nupkg" -Force
 }
