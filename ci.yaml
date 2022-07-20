@@ -1,6 +1,23 @@
-variables:
-  # Avoid expensive initialization of dotnet cli, see: https://donovanbrown.com/post/Stop-wasting-time-during-NET-Core-builds
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+name: Build-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
+trigger:
+  # Batch merge builds together while a merge build is running
+  batch: true
+  branches:
+    include:
+    - main
+    - release/*
+pr:
+  branches:
+    include:
+    - main
+    - release/*
+
+resources:
+  repositories:
+  - repository: ComplianceRepo
+    type: github
+    endpoint: ComplianceGHRepo
+    name: PowerShell/Compliance
 
 stages:
   - stage: Build
