@@ -1,0 +1,20 @@
+steps:
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Pipeline Artifact: out Folder'
+  inputs:
+    artifactName: out
+    targetPath: '$(Build.SourcesDirectory)/out'
+- task: PowerShell@2
+  displayName: 'Test'
+  retryCountOnTaskFailure: 2
+  inputs:
+    targetType: inline
+    pwsh: true
+    script: |
+      Install-Module Pester -Force -Verbose
+      ./build.ps1 -publish -test
+- task: PublishTestResults@2
+  inputs:
+    testRunner: NUnit
+    testResultsFiles: 'testResults.xml'
+  condition: succeededOrFailed()
