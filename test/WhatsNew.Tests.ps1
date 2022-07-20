@@ -12,27 +12,27 @@ Describe "General tests for 'Get-WhatsNew'" {
         foreach ( $file in $files ) {
             $fileNumber = $file -replace ".*(\d\d).md",'$1'
             $key = "File${fileNumber}"
-            $header2hash[$key] = select-string -raw "^## " "../Microsoft.PowerShell.WhatsNew/relnotes/$file"
+            $header2hash[$key] = (select-string "^## " "../Microsoft.PowerShell.WhatsNew/relnotes/$file").line
         }
     }
     It "Handles Single Version" {
-        $observed = Get-WhatsNew -version 7.2 | Select-String -Raw "^## "
+        $observed = (Get-WhatsNew -version 7.2 | Select-String "^## ").Line
         $observed | Should -Be $header2hash["File72"]
     }
 
     It "Handles Single Version ending in '0'" {
-        $observed = Get-WhatsNew -version 7.0 | Select-String -Raw "^## "
+        $observed = (Get-WhatsNew -version 7.0 | Select-String "^## ").line
         $observed | Should -Be $header2hash["File70"]
     }
 
     It "Handles multiple versions" {
-        $observed = Get-WhatsNew -version 7.0,6.0,5.1 | Select-String -Raw "^## "
+        $observed = (Get-WhatsNew -version 7.0,6.0,5.1 | Select-String "^## ").line
         $collection = @( $header2hash["File70"]; $header2hash["File60"]; $header2hash["File50"])
         $observed | Should -Be $collection
     }
 
     It "Converts a version missing the period to version.0" {
-        $observed = Get-WhatsNew -version 7 | Select-String -Raw "^## "
+        $observed = (Get-WhatsNew -version 7 | Select-String "^## ").line
         $observed | Should -Be $header2hash["File70"]
     }
 
