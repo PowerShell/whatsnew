@@ -42,8 +42,8 @@ FileList = 'relnotes/What-s-New-in-PowerShell-70.md',
 PrivateData = @{
     PSData = @{
         Tags = @('WhatsNew','ReleaseNotes','MOTD','MessageOfTheDay')
-        LicenseUri = 'https://github.com/PowerShell/whatsnew'
-        ProjectUri = 'https://github.com/PowerShell/whatsnew/blob/main/LICENSE'
+        LicenseUri = 'https://github.com/PowerShell/whatsnew/blob/main/LICENSE'
+        ProjectUri = 'https://github.com/PowerShell/whatsnew'
         RequireLicenseAcceptance = $false
     }
 }
