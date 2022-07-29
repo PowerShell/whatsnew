@@ -30,6 +30,7 @@ stages:
     steps:
 
     - pwsh: |
+        New-Item -ItemType Directory -Path $(Build.SourcesDirectory)\out | out-null
         & $(Build.SourcesDirectory)\Build.ps1 -clean -publish
       displayName: Build Microsoft.PowerShell.WhatsNew module
       condition: succeededOrFailed()
