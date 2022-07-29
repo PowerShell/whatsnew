@@ -4,15 +4,11 @@ steps:
   inputs:
     artifactName: out
     targetPath: '$(Build.SourcesDirectory)/out'
-- task: PowerShell@2
+- powershell: |
+    Install-Module Pester -Force -Verbose
+    ./build.ps1 -publish -test
   displayName: 'Test'
-  retryCountOnTaskFailure: 2
-  inputs:
-    targetType: inline
-    pwsh: false
-    script: |
-      Install-Module Pester -Force -Verbose
-      ./build.ps1 -publish -test
+
 - task: PublishTestResults@2
   inputs:
     testRunner: NUnit
