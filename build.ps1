@@ -5,8 +5,8 @@ $moduleVersion = $psd.ModuleVersion
 $moduleDeploymentDir = "${PSScriptRoot}/out/${moduleName}/${moduleVersion}"
 
 if ( $clean ) {
-    $null = Remove-Item "${PSScriptRoot}/out" -Recurse -Force
-    $null = Remove-Item "$PsScriptRoot/*.nupkg" -Force
+    $null = if (Test-Path "${PSScriptRoot}/out") { Remove-Item "${PSScriptRoot}/out" -Recurse -Force }
+    $null = if (Test-Path "$PsScriptRoot/*.nupkg") { Remove-Item "$PsScriptRoot/*.nupkg" -Force }
 }
 
 if ($publish) {
