@@ -1,0 +1,122 @@
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+
+trigger: none
+
+resources:
+  repositories:
+  - repository: ComplianceRepo
+    type: github
+    endpoint: ComplianceGHRepo
+    name: PowerShell/compliance
+
+variables:
+  - name: PackageName
+    value: 'Microsoft.PowerShell.WhatsNew'
+  - name: PackageVersion
+    value: ''
+
+stages:
+- stage: Build
+  displayName: Build module
+  pool:
+      name: 1ES
+      demands:
+      - ImageOverride -equals PSMMS2019-Secure
+  jobs:
+  - job: BuildPkg
+    displayName: Build module
+    variables:
+      - group: ESRP
+    steps:
+
+    - pwsh: |
+        New-Item -ItemType Directory -Path $(Build.SourcesDirectory)\out | out-null
+        $outputfolder = & $(Build.SourcesDirectory)\Build.ps1 -clean -publish
+        Write-Host "##vso[task.setvariable variable=OutputFolder]$outputFolder"
+
+      displayName: Build Microsoft.PowerShell.WhatsNew module
+      condition: succeededOrFailed()
+    - pwsh: |
+        Get-childitem "$(Build.SourcesDirectory)\out\Microsoft.PowerShell.WhatsNew\*" -Recurse
+      displayName: Show BuildOutDirectory
+    - template: Sbom.yml@ComplianceRepo
+      parameters:
+        BuildDropPath: $(outputfolder)
+        Build_Repository_Uri: 'https://github.com/PowerShell/WhatsNew'
+        PackageName: $(PackageName)
+        PackageVersion: $(PackageVersion)
+
+    - pwsh: |
+        Get-Childitem "$(outputfolder)" -Recurse
+      displayName: Show BuildOutDirectory
+    - pwsh: |
+        $signSrcPath = "$(Build.SourcesDirectory)\out\Microsoft.PowerShell.WhatsNew\"
+        # Set signing src path variable
+        $vstsCommandString = "vso[task.setvariable variable=signSrcPath]${signSrcPath}"
+        Write-Host "sending " + $vstsCommandString
+        Write-Host "##$vstsCommandString"
+        $signOutPath = "$(Build.SourcesDirectory)\signed\Microsoft.PowerShell.WhatsNew"
+        $null = New-Item -ItemType Directory -Path $signOutPath
+        # Set signing out path variable
+        $vstsCommandString = "vso[task.setvariable variable=signOutPath]${signOutPath}"
+        Write-Host "sending " + $vstsCommandString
+        Write-Host "##$vstsCommandString"
+        # Set path variable for guardian codesign validation
+        $vstsCommandString = "vso[task.setvariable variable=GDN_CODESIGN_TARGETDIRECTORY]${signOutPath}"
+        Write-Host "sending " + $vstsCommandString
+        Write-Host "##$vstsCommandString"
+      displayName: Setup variables for signing
+    - template: EsrpSign.yml@ComplianceRepo
+      parameters:
+        # the folder which contains the binaries to sign
+        buildOutputPath: $(signSrcPath)
+        # the location to put the signed output
+        signOutputPath: $(signOutPath)
+        # the certificate ID to use
+        certificateId: "CP-230012"
+        # the file pattern to use, comma separated
+        pattern: '*.psd1,*.psm1'
+
+    - pwsh: |
+        Compress-Archive -Path "$(signOutPath)\*" -DestinationPath "$(System.ArtifactsDirectory)\Microsoft.PowerShell.WhatsNew.zip"
+      displayName: Create Microsoft.PowerShell.WhatsNew.zip
+    - publish: $(System.ArtifactsDirectory)\Microsoft.PowerShell.WhatsNew.zip
+      artifact: SignedModule
+
+    - template: script-module-compliance.yml@ComplianceRepo
+      parameters:
+        # component-governance
+        sourceScanPath: '$(signOutPath)'
+        # credscan
+        suppressionsFile: ''
+        # TermCheck
+        optionsRulesDBPath: ''
+        optionsFTPath: ''
+        # tsa-upload
+        codeBaseName: 'Microsoft_PowerShell_WhatsNew_7_29_2022'
+        # selections
+        APIScan: false # set to false when not using Windows APIs.
+- stage: Publish
+  displayName: Publish module
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'))
+  variables:
+  - group: PSGalleryKey
+  pool:
+      name: 1ES
+      demands:
+      - ImageOverride -equals PSMMS2019-Secure
+  jobs:
+
+  - deployment: PublishPkg
+    displayName: Publish module to PSGallery
+    environment: WhatsNewPublishApproval
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: signedmodule
+          - pwsh: |
+              Expand-Archive -Path "$(pipeline.workspace)/signedmodule/*.zip" -destinationPath "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -Verbose
+              Publish-Module -Path "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -NugetAPIKey $(psgalleryAPIkey) -Verbose
+
