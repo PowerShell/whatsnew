@@ -36,7 +36,7 @@ if ( $package ) {
     $repoName = [Guid]::NewGuid().ToString("N")
     try {
         Register-PSRepository -Name $repoName -SourceLocation $PSScriptRoot
-        Publish-Module -Path "$PsScriptRoot/${moduleName}" -Repository $repoName
+        Publish-Module -Path $moduleDeploymentDir -Repository $repoName
     }
     finally {
         Unregister-PSRepository -Name $repoName
