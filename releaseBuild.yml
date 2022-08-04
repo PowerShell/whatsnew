@@ -31,7 +31,9 @@ stages:
 
     - pwsh: |
         New-Item -ItemType Directory -Path $(Build.SourcesDirectory)\out | out-null
-        & $(Build.SourcesDirectory)\Build.ps1 -clean -publish
+        $outputfolder = & $(Build.SourcesDirectory)\Build.ps1 -clean -publish
+        Write-Host "##vso[task.setvariable variable=OutputFolder]$outputFolder"
+
       displayName: Build Microsoft.PowerShell.WhatsNew module
       condition: succeededOrFailed()
     - pwsh: |
@@ -39,13 +41,13 @@ stages:
       displayName: Show BuildOutDirectory
     - template: Sbom.yml@ComplianceRepo
       parameters:
-        BuildDropPath: $(Build.SourcesDirectory)\out\Microsoft.PowerShell.WhatsNew\
+        BuildDropPath: $(outputfolder)
         Build_Repository_Uri: 'https://github.com/PowerShell/WhatsNew'
         PackageName: $(PackageName)
         PackageVersion: $(PackageVersion)
 
     - pwsh: |
-        Get-Childitem "$(Build.SourcesDirectory)\out\Microsoft.PowerShell.WhatsNew\*" -Recurse
+        Get-Childitem "$(outputfolder)" -Recurse
       displayName: Show BuildOutDirectory
     - pwsh: |
         $signSrcPath = "$(Build.SourcesDirectory)\out\Microsoft.PowerShell.WhatsNew\"
@@ -94,3 +96,25 @@ stages:
         codeBaseName: 'Microsoft_PowerShell_WhatsNew_7_29_2022'
         # selections
         APIScan: false # set to false when not using Windows APIs.
+- stage: Publish
+  displayName: Publish module
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))
+  pool:
+      name: 1ES
+      demands:
+      - ImageOverride -equals PSMMS2019-Secure
+  jobs:
+
+  - deployment: PublishPkg
+    displayName: Publish module to PSGallery
+    environment: ${{ parameters.environmentName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: signedmodule
+          - pwsh: |
+              Expand-Archive -Path "$(pipeline.workspace)/signedmodule/*.zip" -destinationPath "$(Build.articfactstagingdirectory)/Publish/Microsoft.PowerShell.WhatsNew" -Verbose
+              Publish-Module -Path "$(Build.articfactstagingdirectory)/Publish/Microsoft.PowerShell.WhatsNew" -NugetAPIKey $(psgalleryAPIkey) -Verbose
+
