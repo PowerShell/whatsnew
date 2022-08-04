@@ -99,6 +99,8 @@ stages:
 - stage: Publish
   displayName: Publish module
   condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'))
+  variables:
+  - group: PSGalleryKey
   pool:
       name: 1ES
       demands:
@@ -107,7 +109,7 @@ stages:
 
   - deployment: PublishPkg
     displayName: Publish module to PSGallery
-    environment: ${{ parameters.environmentName }}
+    environment: WhatsNewPublishApproval
     strategy:
       runOnce:
         deploy:
