@@ -98,7 +98,7 @@ stages:
         APIScan: false # set to false when not using Windows APIs.
 - stage: Publish
   displayName: Publish module
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'))
   pool:
       name: 1ES
       demands:
