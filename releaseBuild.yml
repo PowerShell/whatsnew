@@ -119,5 +119,6 @@ stages:
           - pwsh: |
               Install-Module PowerShellGet -force -Verbose
               Expand-Archive -Path "$(pipeline.workspace)/signedmodule/*.zip" -destinationPath "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -Verbose
-              Publish-Module -Path "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -NugetAPIKey $(psgalleryAPIkey) -Verbose
 
+              $env:PSModulePath = "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew;$env:PSModulePath"
+              Publish-Module -Name Microsoft.PowerShell.WhatsNew -NugetAPIKey $(psgalleryAPIkey) -Verbose
