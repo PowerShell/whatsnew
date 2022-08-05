@@ -116,7 +116,8 @@ stages:
           steps:
           - download: current
             artifact: signedmodule
-          - pwsh: |
+          - powershell: |
+              $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
               Expand-Archive -Path "$(pipeline.workspace)/signedmodule/*.zip" -destinationPath "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -Verbose
-              Publish-Module -Path "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -NugetAPIKey $(psgalleryAPIkey) -Verbose
-
+              $env:PSModulePath = "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew;$env:PSModulePath"
+              Publish-Module -Name Microsoft.PowerShell.WhatsNew -NugetAPIKey $(psgalleryAPIkey) -Verbose
