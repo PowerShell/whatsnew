@@ -117,7 +117,9 @@ stages:
           - download: current
             artifact: signedmodule
           - pwsh: |
-              Install-Module PowerShellGet -force -Verbose
+              dotnet --info
+            displayName: .NET initialization workaround
+          - pwsh: |
               Expand-Archive -Path "$(pipeline.workspace)/signedmodule/*.zip" -destinationPath "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew" -Verbose
 
               $env:PSModulePath = "$(Build.ArtifactStagingDirectory)/Publish/Microsoft.PowerShell.WhatsNew;$env:PSModulePath"
