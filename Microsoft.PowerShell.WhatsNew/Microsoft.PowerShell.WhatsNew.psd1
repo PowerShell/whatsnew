@@ -1,7 +1,7 @@
 # Module manifest for module 'Microsoft.PowerShell.WhatsNew'
 @{
 RootModule = 'Microsoft.PowerShell.WhatsNew.psm1'
-ModuleVersion = '0.4.0'
+ModuleVersion = '0.4.1'
 GUID = 'e49f73fd-7419-4639-84d7-159ebc32645e'
 Author = 'sewhee@microsoft.com'
 CompanyName = 'Microsoft'
@@ -48,4 +48,3 @@ PrivateData = @{
     }
 }
 }
-

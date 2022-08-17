@@ -7,6 +7,7 @@ $moduleDeploymentDir = "${PSScriptRoot}/out/${moduleName}/${moduleVersion}"
 if ( $clean ) {
     $null = if (Test-Path "${PSScriptRoot}/out") { Remove-Item "${PSScriptRoot}/out" -Recurse -Force }
     $null = if (Test-Path "$PsScriptRoot/*.nupkg") { Remove-Item "$PsScriptRoot/*.nupkg" -Force }
+    $null = if (Test-Path "$PsScriptRoot/testResults.xml") { Remove-Item "$PsScriptRoot/testResults.xml" -Force }
 }
 
 if ($publish) {
@@ -36,7 +37,7 @@ if ( $package ) {
     $repoName = [Guid]::NewGuid().ToString("N")
     try {
         Register-PSRepository -Name $repoName -SourceLocation $PSScriptRoot
-        Publish-Module -Path "$PsScriptRoot/${moduleName}" -Repository $repoName
+        Publish-Module -Path $moduleDeploymentDir -Repository $repoName
     }
     finally {
         Unregister-PSRepository -Name $repoName

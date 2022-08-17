@@ -1,2 +1,3 @@
 /out
 *.nupkg
+testResults.xml
