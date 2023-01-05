@@ -4,6 +4,7 @@ Describe "General tests for 'Get-WhatsNew'" {
             "What-s-New-in-PowerShell-71.md",
             "What-s-New-in-PowerShell-72.md",
             "What-s-New-in-PowerShell-73.md",
+            "What-s-New-in-PowerShell-74.md",
             "What-s-New-in-PowerShell-Core-60.md",
             "What-s-New-in-PowerShell-Core-61.md",
             "What-s-New-in-PowerShell-Core-62.md",
@@ -16,8 +17,8 @@ Describe "General tests for 'Get-WhatsNew'" {
         }
     }
     It "Handles Single Version" {
-        $observed = (Get-WhatsNew -version 7.2 | Select-String "^## ").Line
-        $observed | Should -Be $header2hash["File72"]
+        $observed = (Get-WhatsNew -version 7.4 | Select-String "^## ").Line
+        $observed | Should -Be $header2hash["File74"]
     }
 
     It "Handles Single Version ending in '0'" {
