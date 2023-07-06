@@ -1,8 +1,12 @@
 # Change log for Get-WhatsNew
 
+## v0.5.3
+
+- Refresh release notes for 7.4-preview.4
+
 ## v0.5.2
 
-
+- Refresh release notes for 7.4-preview.3
 
 ## v0.5.1
 
