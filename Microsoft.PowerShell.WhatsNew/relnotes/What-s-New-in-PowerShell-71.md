@@ -71,30 +71,30 @@ While not officially supported, the community has also provided packages for
 
 ## Experimental Features
 
-For more information about the Experimental Features, see [Using Experimental Features](../learn/experimental-features.md).
+For more information about the Experimental Features, see [Using Experimental Features](/powershell/scripting/learn/experimental-features).
 
 The following experimental features are now mainstream features in this release:
 
-- [PSNullConditionalOperators](../learn/experimental-features.md#psnullconditionaloperators)
-- [PSUnixFileStat](../learn/experimental-features.md#psunixfilestat)
+- [PSNullConditionalOperators](/powershell/scripting/learn/experimental-features#psnullconditionaloperators)
+- [PSUnixFileStat](/powershell/scripting/learn/experimental-features#psunixfilestat)
 
 The following experimental features were added in this release:
 
-- [Microsoft.PowerShell.Utility.PSManageBreakpointsInRunspace](../learn/experimental-features.md#microsoftpowershellutilitypsmanagebreakpointsinrunspace)
+- [Microsoft.PowerShell.Utility.PSManageBreakpointsInRunspace](/powershell/scripting/learn/experimental-features#microsoftpowershellutilitypsmanagebreakpointsinrunspace)
   - PowerShell 7.1 extends this experimental feature to add the **Runspace** parameter to all
   `*-PSBreakpoint` cmdlets. The **Runspace** parameter specifies a **Runspace** object to interact
   with breakpoints in the specified runspace.
 
-- [PSNativePSPathResolution](../learn/experimental-features.md#psnativepspathresolution) - This
+- [PSNativePSPathResolution](/powershell/scripting/learn/experimental-features#psnativepspathresolution) - This
   feature allows you to pass PowerShell provider paths to native commands that don't support
   PowerShell path syntax.
 
-- [PSCultureInvariantReplaceOperator](../learn/experimental-features.md#pscultureinvariantreplaceoperator) -
+- [PSCultureInvariantReplaceOperator](/powershell/scripting/learn/experimental-features#pscultureinvariantreplaceoperator) -
   When the left-hand operand in a `-replace` operator statement is not a string, that operand is
   converted to a string. With the feature enabled, the conversion does not use Culture settings for
   string conversion.
 
-- [PSSubsystemPluginModel](../learn/experimental-features.md#pssubsystempluginmodel) lays the
+- [PSSubsystemPluginModel](/powershell/scripting/learn/experimental-features#pssubsystempluginmodel) lays the
   groundwork to support future Predictive IntelliSense plug-ins.
 
 ## Breaking Changes and Improvements

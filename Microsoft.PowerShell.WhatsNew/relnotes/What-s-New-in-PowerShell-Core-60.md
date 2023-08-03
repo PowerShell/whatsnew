@@ -440,22 +440,23 @@ information about PowerShell jobs, see
 - Fix a bug in tab completion to make `native.exe --<tab>` call into native completer. (#3633)
   (Thanks to [@powercode](https://github.com/powercode)!)
 
-We've introduced a number of breaking changes in PowerShell Core 6.0.
-To read more about them in detail, see [Breaking Changes in PowerShell Core 6.0][breaking-changes].
+## Breaking Changes for PowerShell 6.0
 
-## Debugging
+We've introduced a number of breaking changes in PowerShell Core 6.0.
+
+### Debugging
 
 - Support for remote step-in debugging for `Invoke-Command -ComputerName`. (#3015)
 - Enable binder debug logging in PowerShell Core
 
-## Filesystem updates
+### Filesystem updates
 
 - Enable usage of the Filesystem provider from a UNC path. ($4998)
 - `Split-Path` now works with UNC roots
 - `cd` with no arguments now behaves as `cd ~`
 - Fixed PowerShell Core to allow use of paths that are more than 260 characters long. (#3960)
 
-## Bug fixes and performance improvements
+### Bug fixes and performance improvements
 
 We've made *many* improvements to performance across PowerShell, including in startup time, various
 built-in cmdlets, and interaction with native binaries.
@@ -463,7 +464,7 @@ built-in cmdlets, and interaction with native binaries.
 We've also fixed a number of bugs within PowerShell Core. For a complete list of fixes and changes,
 check out our [changelog][] on GitHub.
 
-## Telemetry
+### Telemetry
 
 - PowerShell Core 6.0 added telemetry to the console host to report two values (#3620):
   - the OS platform (`$PSVersionTable.OSDescription`)
@@ -474,8 +475,6 @@ variable with one of the following values: `true`, `1` or `yes`. Creating the va
 telemetry even before the first run of PowerShell. We also plan on exposing this telemetry data and
 the insights we glean from the telemetry in the [community dashboard][community-dashboard]. You can
 find out more about how we use this data in this [blog post][telemetry-blog].
-
-## Breaking Changes for PowerShell 6.0
 
 ### Modules not shipped for PowerShell 6.0
 
@@ -934,7 +933,7 @@ Internet Explorer have resulted in several breaking changes within `Invoke-WebRe
 [.NET Blog]: https://devblogs.microsoft.com/dotnet/introducing-net-standard/
 [.NET Core 2.0]: /dotnet/core/
 [.NET Standard]: /dotnet/standard/net-standard
-[breaking-changes]: #breaking-changes-for-power-shell-60
+[breaking-changes]: #breaking-changes-for-powershell-60
 [CDXML]: /previous-versions/windows/desktop/wmi_v2/getting-started-with-cdxml
 [changelog]: https://github.com/PowerShell/PowerShell/tree/master/CHANGELOG.md
 [community-dashboard]: https://aka.ms/PSGitHubBI

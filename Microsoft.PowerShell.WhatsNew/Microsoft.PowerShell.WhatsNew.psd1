@@ -1,7 +1,7 @@
 # Module manifest for module 'Microsoft.PowerShell.WhatsNew'
 @{
     RootModule        = 'Microsoft.PowerShell.WhatsNew.psm1'
-    ModuleVersion     = '0.5.3'
+    ModuleVersion     = '0.6.0'
     GUID              = 'e49f73fd-7419-4639-84d7-159ebc32645e'
     Author            = 'sewhee@microsoft.com'
     CompanyName       = 'Microsoft'
@@ -26,7 +26,10 @@ By default, the cmdlet shows all of the release notes for a version. You can als
 display a single random section of the release notes. This can be used as a "Message of the Day".
 '@
     PowerShellVersion = '5.1'
-    FunctionsToExport = 'Get-WhatsNew'
+    FunctionsToExport = @(
+        'Get-WhatsNew',
+        'Update-WhatsNew'
+    )
     CmdletsToExport   = @()
     VariablesToExport = '*'
     AliasesToExport   = @()

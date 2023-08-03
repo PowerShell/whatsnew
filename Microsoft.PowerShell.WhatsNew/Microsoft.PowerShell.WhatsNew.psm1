@@ -213,3 +213,94 @@ $sbVersions = {
         ForEach-Object { "'$_'"}
 }
 Register-ArgumentCompleter -CommandName Get-WhatsNew -ParameterName Version -ScriptBlock $sbVersions
+
+<#
+    .SYNOPSIS
+    Downloads the latest release notes for PowerShell.
+
+    .DESCRIPTION
+    Downloads the latest release notes for PowerShell and saves them to the local system.
+
+    .EXAMPLE
+    Update-WhatsNew
+#>
+function Update-WhatsNew {
+    [CmdletBinding()]
+    param()
+
+    $ProgressPreference = 'SilentlyContinue'
+
+    $manifestUri = [uri]'https://aka.ms/PowerShell/WhatsNew-manifest'
+
+    try {
+        Write-Verbose "Downloading $manifestUri"
+        $invokeRestMethodSplat = @{
+            Uri = $manifestUri
+            Method = 'Get'
+            ContentType = 'application/json'
+            ErrorAction = 'Stop'
+        }
+        $manifest = Invoke-RestMethod @invokeRestMethodSplat
+    } catch {
+        Write-Error "Unable to download manifest from $manifestUri"
+        return
+    }
+
+    $joinPathSplat = @{
+        Path = ([System.IO.Path]::GetTempPath())
+        ChildPath = ([System.IO.Path]::GetRandomFileName())
+    }
+    $TempFolderPath = Join-Path @joinPathSplat
+
+    try {
+        $null = New-Item -Path $TempFolderPath -ItemType Directory -ErrorAction Stop
+    } catch {
+        Write-Error "Unable to create temporary folder $tmpfolder"
+        return
+    }
+
+    Write-Host "Downloading $($manifest.urilist.Count) release notes files..."
+
+    $ecount = 0
+    foreach ($uri in $manifest.urilist) {
+        $srcuri = [uri]$uri
+        $filename = $srcuri.Segments[-1]
+        $invokeWebRequestSplat = @{
+            Uri = $srcuri
+            OutFile = (Join-Path $TempFolderPath $filename)
+            ErrorAction = 'Stop'
+        }
+        try {
+            Write-Verbose "Downloading $srcuri to $TempFolderPath"
+            Invoke-WebRequest @invokeWebRequestSplat
+        } catch {
+            Write-Error "Unable to download $srcuri"
+            $ecount++
+        }
+    }
+    if ($ecount -gt 0) {
+        Write-Error "Unable to download all files. See above for details."
+        return
+    } else {
+        $moveItemSplat = @{
+            Path = (Join-Path $TempFolderPath '*.md')
+            Destination = (Join-Path $PSScriptRoot 'relnotes')
+            Force = $true
+        }
+
+        $fcount = (Get-ChildItem -Path $moveItemSplat.Path -File).Count
+        if ($fcount -eq 0) {
+            Write-Error "No files downloaded."
+            return
+        }
+        try {
+            if (-not (Test-Path $moveItemSplat.Destination)) {
+                $null = New-Item -Path $moveItemSplat.Destination -ItemType Directory -ErrorAction Stop
+            }
+        } catch {
+            Write-Error "Unable to create destination folder $($moveItemSplat.Destination)"
+            return
+        }
+        Move-Item @moveItemSplat
+    }
+}
