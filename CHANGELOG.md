@@ -1,5 +1,9 @@
 # Change log for Get-WhatsNew
 
+## v0.6.0
+
+- Add the `Update-WhatsNew` command to update the release notes files
+
 ## v0.5.3
 
 - Refresh release notes for 7.4-preview.4
