@@ -1,13 +1,13 @@
 ---
-title: What's New in PowerShell 7.4 (preview)
-description: New features and changes released in PowerShell 7.4 (preview)
-ms.date: 06/30/2023
+title: What's New in PowerShell 7.4
+description: New features and changes released in PowerShell 7.4
+ms.date: 11/16/2023
 ---
 
-# What's New in PowerShell 7.4 (preview)
+# What's New in PowerShell 7.4
 
-PowerShell 7.4-preview.4 includes the following features, updates, and breaking changes. PowerShell
-7.4 is now built on .NET 8.0.0-preview.4.
+PowerShell 7.4 includes the following features, updates, and breaking changes. PowerShell 7.4 is
+built on .NET 8.0.0.
 
 For a complete list of changes, see the [CHANGELOG][15] in the GitHub repository.
 
@@ -17,30 +17,31 @@ For a complete list of changes, see the [CHANGELOG][15] in the GitHub repository
 - Added the **ProgressAction** parameter to the Common Parameters
 - Update some PowerShell APIs to throw **ArgumentException** instead of **ArgumentNullException**
   when the argument is an empty string ([#19215][19215]) (Thanks @xtqqczze!)
-- Remove code related to #requires -pssnapin ([#19320][19320])
+- Remove code related to `#requires -pssnapin` ([#19320][19320])
 - `Test-Json` now uses Json.Schema.Net instead of Newtonsoft.Json.Schema. With this change,
   `Test-Json` no longer supports the older Draft 4 schemas. ([#18141][18141]) (Thanks @gregsdennis!)
-- Output from`Test-Connection` now includes more detailed information about TCP connection tests
+- Output from `Test-Connection` now includes more detailed information about TCP connection tests
 
 ## Installer updates
 
 The Windows MSI package now provides an option to disable PowerShell telemetry during installation.
 For more information, see [Install the msi package from the command line][01].
 
-## PowerShellGet v3
+## Updated versions of PSResourceGet and PSReadLine
 
-As of PowerShell 7.4-preview.4, **Microsoft.PowerShell.PSResourceGet** (also known as PowerShellGet
-v3) is now included in PowerShell 7.4. This module is installed side-by-side with **PowerShellGet**
-v2.2.5 and **PackageManagement** v1.4.8.1.
+PowerShell 7.4 includes **Microsoft.PowerShell.PSResourceGet** v1.0.1. This module is installed
+side-by-side with **PowerShellGet** v2.2.5 and **PackageManagement** v1.4.8.1. For more information,
+see the documentation for [Microsoft.PowerShell.PSResourceGet][14].
 
-For more information, see the documentation for [Microsoft.PowerShell.PSResourceGet][14].
+PowerShell 7.4 now includes **PSReadLine** v2.3.4. For more information, see the documentation for
+[PSReadLine][13].
 
 ## Tab completion improvements
 
-Many thanks to **@MartinGC94** and others for all the work on improving tab completion.
+Many thanks to **@MartinGC94** and others for all their work to improve tab completion.
 
 - Fix issue when completing the first command in a script with an empty array expression
-  ([[#18355][18355])
+  ([#18355][18355])
 - Fix positional argument completion ([#17796][17796])
 - Prioritize the default parameter set when completing positional arguments ([#18755][18755])
 - Improve pseudo binding for dynamic parameters ([#18030][18030])
@@ -70,11 +71,14 @@ Many thanks to **@MartinGC94** and others for all the work on improving tab comp
 - Infer external application output as strings ([#19193][19193])
 - Update parameter completion for enums to exclude values not allowed by `ValidateRange` attributes
   ([#17750][17750]) (Thanks @fflaten!).
+- Fix dynamic parameter completion ([#19510][19510])
+- Add completion for variables assigned by the Data statement ([#19831][19831])
 
 ## Web cmdlet improvements
 
 Many thanks to **@CarloToso** and others for all the work on improving web cmdlets.
 
+- Fix decompression in web cmdlets to include Brotli ([#17955][17955]) (Thanks @iSazonov!)
 - Webcmdlets add 308 to redirect codes and small cleanup ([#18536][18536])
 - Complete the progress bar rendering in Invoke-WebRequest when downloading is complete or cancelled
   ([#18130][18130])
@@ -111,9 +115,12 @@ Many thanks to **@CarloToso** and others for all the work on improving web cmdle
   cmdlets ([#19558][19558]) (Thanks @stevenebutler!) Other cmdlets
 - Support Ctrl+c when connection hangs while reading data in WebCmdlets ([#19330][19330]) (Thanks
   @stevenebutler!)
+- Support Unix domain socket in WebCmdlets ([#19343][19343])
 
 ## Other cmdlet improvements
 
+- `Test-Connection` now returns error about the need to use `sudo` on Linux platforms when using a
+  custom buffer size ([#20369][20369])
 - Add output types to Format commands ([#18746][18746]) (Thanks @MartinGC94!)
 - Add output type attributes for `Get-WinEvent` ([#17948][17948]) (Thanks @MartinGC94!)
 - Add **Path** and **LiteralPath** parameters to `Test-Json` cmdlet ([#19042][19042]) (Thanks
@@ -128,17 +135,21 @@ Many thanks to **@CarloToso** and others for all the work on improving web cmdle
 - Add progress to `Copy-Item` ([#18735][18735])
 - `Update-Help` now reports an error when using implicit culture on non-US systems.
   ([#17780][17780]) (Thanks @dkaszews!)
-- Do not require activity when creating a completed progress record ([#18474][18474]) (Thanks
+- Don't require activity when creating a completed progress record ([#18474][18474]) (Thanks
   @MartinGC94!)
 - Disallow negative values for `Get-Content` cmdlet parameters `-Head` and `-Tail`
   ([#19715][19715]) (Thanks @CarloToso!)
-- Make `Update-Help` throw proper error when current culture is not associated with a language
+- Make `Update-Help` throw proper error when current culture isn't associated with a language
   ([#19765][19765]) (Thanks @josea!)
 - Allow combining of `-Skip` and `-SkipLast` parameters in `Select-Object` cmdlet.
   ([#18849][18849]) (Thanks @ArmaanMcleod!)
 - Add `Get-SecureRandom` cmdlet ([#19587][19587])
 - `Set-Clipboard -AsOSC52` for remote usage ([#18222][18222]) (Thanks @dkaszews!)
 - Speed up `Resolve-Path` relative path resolution ([#19171][19171]) (Thanks @MartinGC94!)
+- Added the switch parameter `-CaseInsensitive` to `Select-Object` and `Get-Unique` cmdlets
+  ([#19683][19683]) (Thanks @ArmaanMcleod!)
+- `Restart-Computer` and `Stop-Computer` should fail with error when not running via sudo on Unix
+  ([#19824][19824])
 
 ## Engine improvements
 
@@ -147,8 +158,9 @@ Updates to `$PSStyle`
 - Adds **Dim** and **DimOff** properties ([#18653][18653])
 - Added static methods to the **PSStyle** class that map foreground and background **ConsoleColor**
   values to ANSI escape sequences ([#17938][17938])
-- New formatting properties added by experimental features
+- Table headers for calculated fields are formatted in italics by default
 - Add support of respecting `$PSStyle.OutputRendering` on the remote host ([#19601][19601])
+- Updated telemetry data to include use of `CrescendoBuilt` modules ([#20371][20371])
 
 Other Engine updates
 
@@ -168,29 +180,32 @@ Other Engine updates
 
 PowerShell 7.4 introduces the following experimental features:
 
+- [PSFeedbackProvider][06] - Replaces the hard-coded suggestion framework with an extensible
+  feedback provider.
+  - This feature also adds the **FeedbackName**, **FeedbackText**, and **FeedbackAction** properties
+    to `$PSStyle.Formatting` that allow you to change the formatting of feedback messages.
+- [PSModuleAutoLoadSkipOfflineFiles][07] - Module discovery now skips over files that are marked by
+  cloud providers as not fully on disk.
+- [PSCommandWithArgs][04] - Add support for passing arguments to commands as a single string
+
+The following experimental features became mainstream:
+
+- [PSConstrainedAuditLogging][09] - Add support for logging message about code that would not be
+  allowed in Constrained language mode
 - [PSCustomTableHeaderLabelDecoration][05] - Add formatting differentiation for table header labels
   that aren't property members.
   - This feature also adds the **CustomTableHeaderLabel** property to `$PSStyle.Formatting` that
     allows you to change the formatting of the header label.
-- [PSFeedbackProvider][06] - Replaces the hard-coded suggestion framework with an extensible
-  feedback provider.
-  - This feature also adds the **FeedbackProvider** and **FeedbackText** properties to
-    `$PSStyle.Formatting` that allow you to change the formatting of feedback messages.
-- [PSModuleAutoLoadSkipOfflineFiles][07] - Module discovery now skips over files that are marked by
-  cloud providers as not fully on disk.
-- [PSCommandWithArgs][04] - Add support for passing arguments to commands as a single string
-- [PSConstrainedAuditLogging][09] - Add support for logging message about code that would not be
-  allowed in Constrained language mode
+- [PSNativeCommandErrorActionPreference][08] - `$PSNativeCommandUseErrorActionPreference` is set to
+  `$true` when feature is enabled ([#18695][18695])
 - [PSNativeCommandPreserveBytePipe][10] - Preserves the byte-stream data when redirecting the
   **stdout** stream of a native command to a file or when piping byte-stream data to the stdin
   stream of a native command.
 - [PSWindowsNativeCommandArgPassing][11] - Changes the default value of
-  `$PSNativeCommandArgumentPassing` on Windows
+  `$PSNativeCommandArgumentPassing` to `Windows` on Windows.
 
 PowerShell 7.4 changed the following experimental features:
 
-- [PSNativeCommandErrorActionPreference][08] - `$PSNativeCommandUseErrorActionPreference` is set to
-  `$true` when feature is enabled ([#18695][18695])
 - [PSCommandNotFoundSuggestion][03] - This feature now uses an extensible feedback provider rather
   than hard-coded suggestions ([#18726][18726])
 
@@ -210,6 +225,7 @@ For more information about the Experimental Features, see [Using Experimental Fe
 [10]: ../learn/experimental-features.md#psnativecommandpreservebytepipe
 [11]: ../learn/experimental-features.md#pswindowsnativecommandargpassing
 
+[13]: /powershell/module/psreadline
 [14]: /powershell/module/microsoft.powershell.psresourceget
 [15]: https://github.com/PowerShell/PowerShell/blob/master/CHANGELOG/preview.md
 [14953]: https://github.com/PowerShell/PowerShell/pull/14953
@@ -282,6 +298,7 @@ For more information about the Experimental Features, see [Using Experimental Fe
 [19298]: https://github.com/PowerShell/PowerShell/pull/19298
 [19320]: https://github.com/PowerShell/PowerShell/pull/19320
 [19330]: https://github.com/PowerShell/PowerShell/pull/19330
+[19343]: https://github.com/PowerShell/PowerShell/pull/19343
 [19382]: https://github.com/PowerShell/PowerShell/pull/19382
 [19422]: https://github.com/PowerShell/PowerShell/pull/19422
 [19442]: https://github.com/PowerShell/PowerShell/pull/19442
@@ -289,6 +306,7 @@ For more information about the Experimental Features, see [Using Experimental Fe
 [19489]: https://github.com/PowerShell/PowerShell/pull/19489
 [19490]: https://github.com/PowerShell/PowerShell/pull/19490
 [19501]: https://github.com/PowerShell/PowerShell/pull/19501
+[19510]: https://github.com/PowerShell/PowerShell/pull/19510
 [19558]: https://github.com/PowerShell/PowerShell/pull/19558
 [19560]: https://github.com/PowerShell/PowerShell/pull/19560
 [19587]: https://github.com/PowerShell/PowerShell/pull/19587
@@ -301,3 +319,9 @@ For more information about the Experimental Features, see [Using Experimental Fe
 [19765]: https://github.com/PowerShell/PowerShell/pull/19765
 [19814]: https://github.com/PowerShell/PowerShell/pull/19814
 [19819]: https://github.com/PowerShell/PowerShell/pull/19819
+[19831]: https://github.com/PowerShell/PowerShell/pull/19831
+[19683]: https://github.com/PowerShell/PowerShell/pull/19683
+[19824]: https://github.com/PowerShell/PowerShell/pull/19824
+[20369]: https://github.com/PowerShell/PowerShell/pull/20369
+[20371]: https://github.com/PowerShell/PowerShell/pull/20371
+[17955]: https://github.com/PowerShell/PowerShell/pull/17955

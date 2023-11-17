@@ -1,7 +1,7 @@
 # Module manifest for module 'Microsoft.PowerShell.WhatsNew'
 @{
     RootModule        = 'Microsoft.PowerShell.WhatsNew.psm1'
-    ModuleVersion     = '0.5.3'
+    ModuleVersion     = '0.5.4'
     GUID              = 'e49f73fd-7419-4639-84d7-159ebc32645e'
     Author            = 'sewhee@microsoft.com'
     CompanyName       = 'Microsoft'
@@ -20,7 +20,7 @@ The cmdlet can display release notes for the following versions of PowerShell
 - PowerShell 7.1
 - PowerShell 7.2
 - PowerShell 7.3
-- PowerShell 7.4 (preview)
+- PowerShell 7.4
 
 By default, the cmdlet shows all of the release notes for a version. You can also limit it to
 display a single random section of the release notes. This can be used as a "Message of the Day".
