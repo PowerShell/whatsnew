@@ -68,7 +68,7 @@ function TestVersion {
     - PowerShell 7.1
     - PowerShell 7.2
     - PowerShell 7.3
-    - PowerShell 7.4 (preview)
+    - PowerShell 7.4
 
     By default, the cmdlet shows all of the release notes for a version. You can also limit it to
     display a single random section of the release notes. This can be used as a "Message of the Day".
