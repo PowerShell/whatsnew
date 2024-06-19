@@ -2,7 +2,7 @@
 
 ## v0.5.5
 
-- Refresh release notes for 7.4.2 and add release notes for 7.5-preview.3
+- Refresh release notes for 7.4.3 and add release notes for 7.5-preview.3
 
 ## v0.5.4
 
