@@ -5,6 +5,7 @@ Describe "General tests for 'Get-WhatsNew'" {
             "What-s-New-in-PowerShell-72.md",
             "What-s-New-in-PowerShell-73.md",
             "What-s-New-in-PowerShell-74.md",
+            "What-s-New-in-PowerShell-75.md",
             "What-s-New-in-PowerShell-Core-60.md",
             "What-s-New-in-PowerShell-Core-61.md",
             "What-s-New-in-PowerShell-Core-62.md",
