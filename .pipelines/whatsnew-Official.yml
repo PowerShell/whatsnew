@@ -33,10 +33,6 @@ extends:
       asyncSdl:
         enabled: true
         forStages: [build]
-      #credscan:
-      #  enabled: true
-      #  scanfolder: $(Build.SourcesDirectory)
-      #  suppressionsFile: $(Build.SourcesDirectory)\.config\suppress.json
     stages:
     - stage: build
       jobs:
@@ -47,8 +43,6 @@ extends:
         variables:
         - name: ob_outputDirectory
           value: $(Build.SourcesDirectory)/out
-        - name: ob_sdl_credscan_suppressionsFile
-          value: $(Build.SourcesDirectory)\.config\suppress.json
         steps:
           - pwsh: |
               Write-Verbose -Verbose ((Get-Item $(Build.SourcesDirectory)).FullName)
