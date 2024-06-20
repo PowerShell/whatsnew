@@ -69,11 +69,11 @@ extends:
             inputs:
               system: Custom
               customVersion: $(package.version)
-          - task: UseDotNet@2
-            displayName: Use .NET SDK
-            inputs:
-              packageType: sdk
-              useGlobalJson: true
+          #- task: UseDotNet@2
+          #  displayName: Use .NET SDK
+          #  inputs:
+          #    packageType: sdk
+          #    useGlobalJson: true
           - pwsh: ./build.ps1 -publish
             displayName: Build WhatsNew
           - task: onebranch.pipeline.signing@1
