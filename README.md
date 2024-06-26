@@ -22,6 +22,14 @@ information in the terminal as they expect.
 > I can list the new features released in my current version of PowerShell, similar to [webview][02]
 > so that I can discover and implement new features to develop automation solutions.
 
+## Code of Conduct
+
+Please see our [Code of Conduct](.github/CODE_OF_CONDUCT.md) before participating in this project.
+
+## Security Policy
+
+For any security issues, please see our [Security Policy](.github/SECURITY.md).
+
 ## NOTE
 
 This is a prototype for the draft [RFC #317][03]. We welcome your feedback in this repository.
