@@ -1,3 +1,6 @@
+---
+ms.date: 06/27-2024
+---
 # Get-WhatsNew
 
 [Get-WhatsNew][04] is a cmdlet that provides information about changes and new features for a
