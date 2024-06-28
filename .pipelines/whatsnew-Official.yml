@@ -132,11 +132,12 @@ extends:
           displayName: Download artifacts
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace) | Out-String -Stream | Write-Verbose -Verbose
+            Get-Item $(Pipeline.Workspace)/drop_build_main/Microsoft.PowerShell.WhatsNew.$(package.nupkgVersion).nupkg 2>&1 | Out-String -Stream | Write-Verbose -Verbose
           displayName: Get downloaded artifact files
         - task: NuGetCommand@2
           displayName: Publish WhatsNew to PowerShell Gallery
           inputs:
             command: push
-            packagesToPush: $(Pipeline.Workspace)/drop_build_main/Microsoft.PowerShell.WhatsNew.$(package.nupkgVersion).nupkg
+            packagesToPush: $(Pipeline.Workspace)\drop_build_main\Microsoft.PowerShell.WhatsNew.$(package.nupkgVersion).nupkg
             nuGetFeedType: external
             publishFeedCredentials: PowerShellGallery
