@@ -1,7 +1,17 @@
 ---
-ms.date: 06/27-2024
+ms.date: 07/01/2026
 ---
 # Get-WhatsNew
+
+> [!IMPORTANT]
+> ⚠️ Project Status Update: Get-WhatsNew is no longer maintained.
+>
+> We want to thank everyone who provided feedback. The repository will remain available in its
+> current state for reference, but:
+>
+> - Issues and pull requests are not being monitored
+> - No new features or bug fixes are planned
+> - The project should be considered archived from an engineering standpoint
 
 [Get-WhatsNew][04] is a cmdlet that provides information about changes and new features for a
 version of PowerShell, delivered to the local terminal experience.
